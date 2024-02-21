@@ -1,1 +1,1 @@
-some bash scripts used in bioinformatics research
+# some bash scripts used in bioinformatics research
