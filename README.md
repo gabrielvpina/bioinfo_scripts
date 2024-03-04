@@ -2,8 +2,7 @@
 
 ## `fastq_donwload_input.py`
 - This script allows the user to download SRA libraries by their SRR id.
-
-## small single-end (random) libraries will be selected - https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP422037&o=bytes_l%3Aa
+- small single-end (random) libraries will be selected - https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP422037&o=bytes_l%3Aa
 
 SRR23422991
 SRR23423005
