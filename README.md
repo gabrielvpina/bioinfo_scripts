@@ -10,7 +10,7 @@ SRR23423009
 SRR23423008
 
 ## FastQC query
-fastqc --noextract --nogroup --outdir fastqc/ fastqc fastq/*.fastq.gz
+fastqc --outdir fastqc/ fastqc fastq/*.fastq.gz
 
 ## multiqc installation
 pip install multiqc
