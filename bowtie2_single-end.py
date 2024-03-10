@@ -19,7 +19,7 @@ for arquivo in lista_arquivos:
         "bowtie2",
         "-x", "cacao_index",  # Substitua "index_reference" pelo índice Bowtie2 adequado
         "-U", entrada,
-        "--un", "bowtie2/", saida
+        "--un-gz", "bowtie2/", saida
     ]
 
     # Executar o comando Fastp
