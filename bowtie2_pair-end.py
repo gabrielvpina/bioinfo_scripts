@@ -25,7 +25,7 @@ for arquivo in os.listdir(pasta_fastp):
             comando_bowtie2 = [
                 "bowtie2", "-x", "cacao_index",
                 "-1", f"{pasta_fastp}/{arquivo}", "-2", f"{pasta_fastp}/{arquivo_2}",
-                "--un-conc", f"{dir_name}/{samp}.fq"
+                "--un-conc-gz", f"{dir_name}/{samp}.fq"
             ]
 
             # Executar o comando Bowtie2 usando subprocess
