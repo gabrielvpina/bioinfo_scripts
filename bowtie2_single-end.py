@@ -24,4 +24,3 @@ for arquivo in lista_arquivos:
 
     # Executar o comando Fastp
     subprocess.run(comando_bowtie2)
-
