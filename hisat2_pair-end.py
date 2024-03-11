@@ -1,3 +1,5 @@
+# Primeiro é necessário criar um index no HISAT2
+
 import subprocess
 import os
 
