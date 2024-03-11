@@ -15,26 +15,20 @@ pip install multiqc
 ## `quality_control.py`
 - This script will run fastqc and multiqc of all librarys
 
-# Execução no terminal
-Para executar scripts em série no terminal Linux, onde a execução de um script só pode ser realizada após o término do anterior, você pode usar operadores de controle de fluxo, como && ou ;, ou você pode encadear os comandos usando &&. Aqui estão algumas maneiras de fazer isso:
-Usando && para encadear os comandos: Desta forma, o próximo comando só será executado se o anterior for concluído com sucesso:
+# Execução dos scripts em série
+É possível criar um script em Python que invoque outros scripts de forma serial, onde o término de um script dita o início do próximo. Isso pode ser feito utilizando a função subprocess.run() para chamar os scripts sequencialmente.
+```
+import subprocess
 
-`comando1 && comando2 && comando3`
+# Chamar o primeiro script
+subprocess.run(["python", "script1.py"])
 
-Por exemplo:
+# Chamar o segundo script após o término do primeiro
+subprocess.run(["python", "script2.py"])
 
-`./script1.sh && ./script2.sh && ./script3.sh`
+# Chamar o terceiro script após o término do segundo
+subprocess.run(["python", "script3.py"])
 
-Usando ; para separar os comandos: Esta forma executa os comandos sequencialmente, independentemente do sucesso ou falha do comando anterior:
-
-`comando1 ; comando2 ; comando3`
-
-Por exemplo:
-
-`./script1.sh ; ./script2.sh ; ./script3.sh`
-
-Usando uma linha de comando única com && para todos os scripts:
-
-`./script1.sh && ./script2.sh && ./script3.sh`
-
-Neste caso, cada script só será executado se o anterior for concluído com sucesso. Escolha o método que melhor atende às suas necessidades e à lógica do seu fluxo de trabalho.
+# E assim por diante...
+```
+d
