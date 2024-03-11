@@ -6,11 +6,8 @@
 
 SRR23422991 SRR23423005 SRR23423009 SRR23423008
 
-## FastQC query
-fastqc --outdir fastqc/ fastqc fastq/*.fastq.gz
-
 ## multiqc installation
-pip install multiqc
+`pip install multiqc`
 
 ## `quality_control.py`
 - This script will run fastqc and multiqc of all librarys
