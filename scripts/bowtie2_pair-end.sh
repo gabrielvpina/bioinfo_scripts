@@ -21,7 +21,7 @@ for arquivo in "$pasta_fastp"/*_1.fastq.gz; do
         arquivo_2="$pasta_fastp/${samp}_2.fastq.gz"
         if [[ -f "$arquivo_2" ]]; then
             # Comando Bowtie2
-            bowtie2 -x cacao_index -1 "$arquivo" -2 "$arquivo_2" --un-conc-gz "$dir_name/${samp}_unaligned.fq.gz" -p 6
+            bowtie2 -p 8 -x cacao_index -1 "$arquivo" -2 "$arquivo_2" --un-conc-gz "$dir_name/${samp}" 
         fi
     fi
 done
