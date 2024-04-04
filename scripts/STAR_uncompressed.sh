@@ -24,7 +24,7 @@ for arquivo in "$pasta_fastp"/*_1.fastq.gz; do
         gunzip -c "$pasta_fastp/${samp}_2.fastq.gz" > "$pasta_fastp/${samp}_2.fastq"
 
         # Comando STAR
-        STAR --runThreadN 12 --genomeDir star_genome --readFilesIn "$pasta_fastp/${samp}_1.fastq" "$pasta_fastp/${samp}_2.fastq" --outFileNamePrefix "$dir_name/${samp}.fastq" --outReadsUnmapped Fastx 
+        STAR --runThreadN 12 --genomeDir star_genome --readFilesIn "$pasta_fastp/${samp}_1.fastq" "$pasta_fastp/${samp}_2.fastq" --outFileNamePrefix "$dir_name/${samp}_" --outReadsUnmapped Fastx 
 
         # Comprimir novamente os arquivos _1.fastq e _2.fastq
         rm "$pasta_fastp/${samp}_1.fastq"
