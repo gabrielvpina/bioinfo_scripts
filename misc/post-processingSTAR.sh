@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Esse script deve ser inserido na pasta do STAR unmapped
+# Ele deverá ser usado para filtrar os arquivos fastq da fasta de output
 
 # Iterar sobre os arquivos Unmapped.out.mate1
 for arquivo in *_Unmapped.out.mate1; do
