@@ -5,7 +5,7 @@ dir_name="spades"
 mkdir -p "$dir_name"
 
 # Obter o caminho completo para a pasta fastp/
-pasta_bowtie2="bowtie2/"
+pasta_bowtie2="STAR_unmapped/"
 
 # Iterar sobre os arquivos encontrados na pasta fastp/
 for arquivo in "$pasta_bowtie2"/*_1.fastq.gz; do
@@ -21,6 +21,6 @@ for arquivo in "$pasta_bowtie2"/*_1.fastq.gz; do
         arquivo_2="$pasta_fastp/${samp}_2.fastq.gz"
         if [[ -f "$arquivo_2" ]]; then
             # Comando Bowtie2
-            spades.py --isolate --threads 16 --memory 200 -1 "$arquivo" -2 "$arquivo_2" -o "$dir_name/${samp}_assembly.fq.gz" 
+            spades.py --threads 10 --memory 200 -1 "$arquivo" -2 "$arquivo_2" -o "$dir_name/${samp}_assembly.fq.gz" 
         fi
     fi
