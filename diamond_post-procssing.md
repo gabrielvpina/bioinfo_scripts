@@ -23,6 +23,17 @@ evalue - Expect value
 stitle - Subject Title
 full_qseq - Full query sequence
 
+## Colunas para serem inseridas no arquivo:
+
+QuerySeq	SubjectSeq	QseqLength	SseqLength	Pident	Evalue	SubjTitle	FullQueryLength
+
 # 1) Filtro 
 
 `grep -i 'RdRp\|RNA-dependent\|capsid\|coat\|replicase\|glycoprotein\|replicase\|nucleoprotein\|nucleocapsid' arquivo.tsv > arquivoFiltrado.tsv`
+
+# 2) Inserindo nova coluna
+
+- Transformando os colchetes em tabs
+- Inserção de nova coluna
+
+QuerySeq	SubjectSeq	QseqLength	SseqLength	Pident	Evalue	SubjTitle	Specie	FullQueryLength
