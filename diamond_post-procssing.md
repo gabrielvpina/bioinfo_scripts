@@ -37,3 +37,14 @@ QuerySeq	SubjectSeq	QseqLength	SseqLength	Pident	Evalue	SubjTitle	FullQueryLengt
 - Inserção de nova coluna
 
 QuerySeq	SubjectSeq	QseqLength	SseqLength	Pident	Evalue	SubjTitle	Specie	FullQueryLength
+
+# 3) Substituindo os Colchetes por espaços tabulados
+
+`sed -i 's/\[/\t/g; s/\]/\t/g' arquivo.tsv`
+
+# 4) Inserindo colunas na tabela
+
+`echo "QuerySeq	SubjectSeq	QseqLength	SseqLength	Pident	Evalue	SubjTitle	Specie	FullQueryLength" | cat - metaviraldmnd.tsv > Processmetaviraldmnd.tsv && mv Processmetaviraldmnd.tsv metaviraldmnd.tsv`
+
+
+
