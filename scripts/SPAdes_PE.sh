@@ -21,6 +21,6 @@ for arquivo in "$pasta_bowtie2"/*_1.fastq.gz; do
         arquivo_2="$pasta_fastp/${samp}_2.fastq.gz"
         if [[ -f "$arquivo_2" ]]; then
             # Comando Bowtie2
-            spades.py --threads 10 --memory 200 -1 "$arquivo" -2 "$arquivo_2" -o "$dir_name/${samp}_assembly.fq.gz" 
+            spades.py --threads 10 --memory 200 --pe1-1 "$arquivo" --pe1-2 "$arquivo_2" -o "$dir_name/${samp}_assembly.fq.gz" 
         fi
     fi
