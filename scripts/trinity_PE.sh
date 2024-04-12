@@ -1,4 +1,3 @@
-  GNU nano 6.2                                                             SPAdes_PE.sh                                                                       
 #!/bin/bash
 
 # Criar um novo diretório
