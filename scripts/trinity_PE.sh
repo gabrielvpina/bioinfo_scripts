@@ -22,7 +22,7 @@ for arquivo in "$pasta_STAR"/*1.fq.gz; do
         arquivo_2="$pasta_STAR/${samp}2.fq.gz"
         if [[ -f "$arquivo_2" ]]; then
             # Comando Bowtie2
-             Trinity --seqType fq --max_memory 50G --left $arquivo  --right $arquivo_2 --CPU 6 
+             Trinity --seqType fq --max_memory 50G --left $arquivo  --right $arquivo_2 --CPU 10 
         fi
     fi
 
