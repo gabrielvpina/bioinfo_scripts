@@ -1,8 +1,7 @@
-  GNU nano 6.2                                                             trinity_PE.sh                                                                      
 #!/bin/bash
 
 # Criar um novo diretório
-dir_name="trinity"
+dir_name="Trinity-out"
 mkdir -p "$dir_name"
 
 # Obter o caminho completo para a pasta fastp/
@@ -22,10 +21,11 @@ for arquivo in "$pasta_STAR"/*1.fq.gz; do
         arquivo_2="$pasta_STAR/${samp}2.fq.gz"
         if [[ -f "$arquivo_2" ]]; then
             # Comando Bowtie2
-             Trinity --seqType fq --no_bowtie --max_memory 50G --left "$arquivo"  --right "$arquivo_2" --CPU 10 --output trinity/"$samp.fasta"
+             Trinity --seqType fq --no_bowtie --max_memory 50G --left "$arquivo"  --right "$arquivo_2" --CPU 10 --output Trinity-out/"$samp.fasta"
         fi
     fi
 
 done
+
 
 
