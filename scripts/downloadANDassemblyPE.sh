@@ -4,7 +4,7 @@
 # "mkdir assembled_contigs"
 
 # Solicitar ao usuário que insira os SRA library runs separados por espaço
-entry="SRR15010977 SRR15010978 SRR15010979"
+entry="SRR17587557 SRR17587556"
 sra_numbers=($entry)
 
 # Solicitar ao usuário que insira o caminho da pasta de destino
@@ -60,14 +60,14 @@ for arquivo in fastq/*_1.fastq.gz; do
         arquivo_2="fastq/${samp}_2.fastq.gz"
         if [[ -f "$arquivo_2" ]]; then
             # Comando Fastp
-            fastp --trim_poly_g --in1 "$arquivo" --in2 "$arquivo_2" --out1 "fastp/${samp}_1.fq.gz" --out2 "fastp/${samp}_2.fq.gz" 
+            fastp --trim_poly_g --in1 "$arquivo" --in2 "$arquivo_2" --out1 "fastp/${samp}_1.fastq.gz" --out2 "fastp/${samp}_2.fastq.gz" 
 
             echo "Trimming $samp. The query used is: fastp --trim_poly_g --in1 $arquivo --in2 $arquivo_2 --out1 fastp/${samp}_1.fq.gz --out2 fastp/${samp}_2.fq.gz"
         fi
     fi
 done
 
-rm -r fastq
+# rm -r fastq
 
 ################ mapping - STAR ###############################
 
@@ -75,11 +75,11 @@ mkdir -p "STAR_unmapped"
 pasta_fastp="fastp/"
 
 # Iterar sobre os arquivos encontrados na pasta fastp/
-for arquivo in "$pasta_fastp"/*_1.fq.gz; do
+for arquivo in "$pasta_fastp"/*_1.fastq.gz; do
     # Verificar se o arquivo tem o padrão correto de nome (_1.fq.gz)
     if [[ -f "$arquivo" ]]; then
         # Extrair o nome do arquivo (sem extensão) e sem o sufixo _1
-        samp=$(basename "$arquivo" _1.fq.gz)
+        samp=$(basename "$arquivo" _1.fastq.gz)
 
         # Imprimir a mensagem de processamento
         echo "Processing sample $samp"
@@ -88,7 +88,7 @@ for arquivo in "$pasta_fastp"/*_1.fq.gz; do
         gunzip -c "$arquivo" > "$pasta_fastp/${samp}_1.fastq"
 
         # Descomprimir o arquivo _2.fq.gz
-        gunzip -c "$pasta_fastp/${samp}_2.fq.gz" > "$pasta_fastp/${samp}_2.fastq"
+        gunzip -c "$pasta_fastp/${samp}_2.fastq.gz" > "$pasta_fastp/${samp}_2.fastq"
 
         # Comando STAR
         STAR --runThreadN 7 --genomeDir star_genome --readFilesIn "$pasta_fastp/${samp}_1.fastq" "$pasta_fastp/${samp}_2.fastq" --outFileNamePrefix "STAR_unmapped/${samp}_" --outReadsUnmapped Fastx 
@@ -100,8 +100,8 @@ for arquivo in "$pasta_fastp"/*_1.fq.gz; do
     fi
 done
 
-echo "Removing file 'fastp'"
-rm -r fastp
+# echo "Removing file 'fastp'"
+# rm -r fastp
 
 ################# assembling - SPAdes ###########################
 
@@ -112,17 +112,17 @@ mkdir -p "spades"
 pasta_star_unmapped="STAR_unmapped/"
 
 # Iterar sobre os arquivos encontrados na pasta STAR_unmapped
-for arquivo in "$pasta_star_unmapped"/*_1.fastq; do
+for arquivo in "$pasta_star_unmapped"/*_1.fastq.gz; do
     # Verificar se o arquivo tem o padrão correto de nome (_1.fastq)
     if [[ -f "$arquivo" ]]; then
         # Extrair o nome do arquivo (sem extensão) e sem o sufixo _1
-        samp=$(basename "$arquivo" _1.fastq)
+        samp=$(basename "$arquivo" _1.fastq.gz)
 
         # Imprimir a mensagem de processamento
         echo "Processing sample $samp"
 
         # Verificar se existe o arquivo correspondente com o sufixo _2
-        arquivo_2="$pasta_star_unmapped/${samp}_2.fastq"
+        arquivo_2="$pasta_star_unmapped/${samp}_2.fastq.gz"
         if [[ -f "$arquivo_2" ]]; then
             # Comando SPAdes
             spades.py --threads 7 --memory 14 -1 "$arquivo" -2 "$arquivo_2" -o "spades/${samp}_assembly" 
@@ -132,7 +132,7 @@ for arquivo in "$pasta_star_unmapped"/*_1.fastq; do
     fi
 done
 
-rm -r STAR_unmapped
+# rm -r STAR_unmapped
 
 ############### getting contigs #################
 
