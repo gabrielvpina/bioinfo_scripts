@@ -4,14 +4,16 @@
 # "mkdir assembled_contigs"
 
 # Solicitar ao usuário que insira os SRA library runs separados por espaço
-entry="SRR1 SRR2 SRR3"
+entry="SRR15010977 SRR15010978 SRR15010979"
 sra_numbers=($entry)
 
 # Solicitar ao usuário que insira o caminho da pasta de destino
-user_path = "seu/diretorio/aqui"
-read -r user_path
+user_path="/home/gabriel/bioinfo/teste_diversidade"
 
-# Baixar os arquivos .sra para ~/ncbi/public/sra/ (o diretório será criado se não existir)
+# Inicializar a lista de pastas SRA
+sra_folders=()
+
+# Baixar os arquivos .sra para $user_path (o diretório será criado se não existir)
 for sra_id in "${sra_numbers[@]}"; do
     echo "Currently downloading: $sra_id"
     prefetch="prefetch $sra_id"
@@ -22,6 +24,8 @@ for sra_id in "${sra_numbers[@]}"; do
     sra_folder_path="$user_path/$sra_id"
     sra_folders+=("$sra_folder_path")
 done
+
+mkdir -p "fastq"
 
 # Extrair os arquivos .sra para a pasta 'fastq'
 for ((i=0; i<${#sra_numbers[@]}; i++)); do
@@ -43,7 +47,7 @@ done
 mkdir -p "fastp"
 
 # lendo os arquivos da pasta fastq
-for arquivo in "fastq"/*_1.fastq.gz; do
+for arquivo in fastq/*_1.fastq.gz; do
     # Verificar se o arquivo tem o padrão correto de nome (_1.fastq.gz)
     if [[ -f "$arquivo" ]]; then
         # Extrair o nome do arquivo (sem extensão) e sem o sufixo _1
@@ -71,23 +75,23 @@ mkdir -p "STAR_unmapped"
 pasta_fastp="fastp/"
 
 # Iterar sobre os arquivos encontrados na pasta fastp/
-for arquivo in "$pasta_fastp"/*_1.fastq.gz; do
-    # Verificar se o arquivo tem o padrão correto de nome (_1.fastq.gz)
+for arquivo in "$pasta_fastp"/*_1.fq.gz; do
+    # Verificar se o arquivo tem o padrão correto de nome (_1.fq.gz)
     if [[ -f "$arquivo" ]]; then
         # Extrair o nome do arquivo (sem extensão) e sem o sufixo _1
-        samp=$(basename "$arquivo" _1.fastq.gz)
+        samp=$(basename "$arquivo" _1.fq.gz)
 
         # Imprimir a mensagem de processamento
         echo "Processing sample $samp"
 
-        # Descomprimir o arquivo _1.fastq.gz
+        # Descomprimir o arquivo _1.fq.gz
         gunzip -c "$arquivo" > "$pasta_fastp/${samp}_1.fastq"
 
-        # Descomprimir o arquivo _2.fastq.gz
-        gunzip -c "$pasta_fastp/${samp}_2.fastq.gz" > "$pasta_fastp/${samp}_2.fastq"
+        # Descomprimir o arquivo _2.fq.gz
+        gunzip -c "$pasta_fastp/${samp}_2.fq.gz" > "$pasta_fastp/${samp}_2.fastq"
 
         # Comando STAR
-        STAR --runThreadN 10 --genomeDir star_genome --readFilesIn "$pasta_fastp/${samp}_1.fastq" "$pasta_fastp/${samp}_2.fastq" --outFileNamePrefix "STAR_unmapped/${samp}_" --outReadsUnmapped Fastx 
+        STAR --runThreadN 7 --genomeDir star_genome --readFilesIn "$pasta_fastp/${samp}_1.fastq" "$pasta_fastp/${samp}_2.fastq" --outFileNamePrefix "STAR_unmapped/${samp}_" --outReadsUnmapped Fastx 
 
         # Comprimir novamente os arquivos _1.fastq e _2.fastq
         echo "Removing uncompressed files"
@@ -104,55 +108,42 @@ rm -r fastp
 # Criar um novo diretório
 mkdir -p "spades"
 
-# Obter o caminho completo para a pasta fastp/
-pasta_bowtie2="STAR_unmapped/"
+# Obter o caminho completo para a pasta STAR_unmapped
+pasta_star_unmapped="STAR_unmapped/"
 
-# Iterar sobre os arquivos encontrados na pasta fastp/
-for arquivo in "$pasta_bowtie2"/*_1.fastq.gz; do
-    # Verificar se o arquivo tem o padrão correto de nome (_1.fastq.gz)
+# Iterar sobre os arquivos encontrados na pasta STAR_unmapped
+for arquivo in "$pasta_star_unmapped"/*_1.fastq; do
+    # Verificar se o arquivo tem o padrão correto de nome (_1.fastq)
     if [[ -f "$arquivo" ]]; then
         # Extrair o nome do arquivo (sem extensão) e sem o sufixo _1
-        samp=$(basename "$arquivo" _1.fastq.gz)
+        samp=$(basename "$arquivo" _1.fastq)
 
         # Imprimir a mensagem de processamento
         echo "Processing sample $samp"
 
         # Verificar se existe o arquivo correspondente com o sufixo _2
-        arquivo_2="$pasta_fastp/${samp}_2.fastq.gz"
+        arquivo_2="$pasta_star_unmapped/${samp}_2.fastq"
         if [[ -f "$arquivo_2" ]]; then
-            # Comando Bowtie2
-            spades.py --threads 10 --memory 200 -1 "$arquivo" -2 "$arquivo_2" -o "spades/${samp}_assembly" 
+            # Comando SPAdes
+            spades.py --threads 7 --memory 14 -1 "$arquivo" -2 "$arquivo_2" -o "spades/${samp}_assembly" 
 
             echo "Assembling $arquivo. The query used was: spades.py --threads 10 --memory 200 -1 $arquivo -2 $arquivo_2 -o spades/${samp}_assembly"
         fi
     fi
-
 done
 
 rm -r STAR_unmapped
 
 ############### getting contigs #################
 
-# Iterar sobre os arquivos encontrados na pasta spades
-for arquivo in "spades"/*_assembly; do
+# Iterar sobre os diretórios encontrados na pasta spades
+for dir in spades/*_assembly; do
     # Verificar se a pasta tem o padrão correto de nome (_assembly)
-    if [[ -f "$arquivo" ]]; then
-        # Extrair o nome do arquivo (sem extensão)
-        samp=$(basename "$arquivo" _assembly)
+    if [[ -d "$dir" ]]; then
+        # Extrair o nome do diretório (sem extensão)
+        samp=$(basename "$dir" _assembly)
         
-        for contig in spades/"$arquivo"_assembly/contig.fasta
-            cp $contig "assembled_contigs/$samp.fasta"
-        done
-
+        # Copiar o arquivo contigs.fasta para assembled_contigs
+        cp "$dir/contigs.fasta" "assembled_contigs/${samp}.fasta"
     fi
-
 done
-
-
-        
-
-
-
-
-
-
