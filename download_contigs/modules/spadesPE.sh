@@ -20,9 +20,9 @@ for arquivo in "$pasta_star_unmapped"/*_pass_Unmapped.out.mate1; do
         arquivo_2="$pasta_star_unmapped/${samp}_pass_Unmapped.out.mate2"
         if [[ -f "$arquivo_2" ]]; then
             # Comando SPAdes
-            spades.py --threads 7 --memory 14 -1 "$arquivo" -2 "$arquivo_2" -o "spades/${samp}_assembly" 
+            spades.py --threads 7 --memory 14 --pe1-1 "$arquivo" --pe1-2 "$arquivo_2" -o "spades/${samp}_assembly" 
 
-            echo "Assembling $arquivo. The query used was: spades.py --threads 10 --memory 200 -1 $arquivo -2 $arquivo_2 -o spades/${samp}_assembly"
+            echo "Assembling $arquivo. The query used was: spades.py --threads 7 --memory 14 --pe1-1 $arquivo --pe1-2  $arquivo_2  -o spades/${samp}_assembly"
         fi
     fi
 done
