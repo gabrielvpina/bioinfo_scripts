@@ -70,7 +70,7 @@ def main():
     for org, genes in summaries.items():
         print(f"Organismo: {org}")
         for gene, summary in genes.items():
-            print(f"Gene: {gene}\nResumo: {summary}\n")
+            print(f"Gene: {gene}\nSummary: {summary}\n")
 
 if __name__ == "__main__":
     main()
