@@ -44,7 +44,7 @@ def get_entrez_gene_summaries_by_ids(gene_ids, email):
             gene_organism = gene_docsum.get("Organism")["CommonName"]
             gene_summaries[gene_organism][name] = summary
         
-        time.sleep(0.34)  # Requests to NCBI are rate limited to 3 per second
+        time.sleep(0.34)  # Requests limited to 3 per second
 
     return gene_summaries
 
@@ -66,7 +66,7 @@ def main():
     gene_ids = read_gene_ids_from_file(file_path)
     summaries = get_entrez_gene_summaries_by_ids(gene_ids, email)
 
-    # Print the summaries
+    # summaries
     for org, genes in summaries.items():
         print(f"Organismo: {org}")
         for gene, summary in genes.items():
