@@ -32,8 +32,7 @@ echo "\n ################### Getting contigs \n"
 #
 echo "\n ################### Formatting Star results \n"
 ./modules/fastqToFasta.sh
-#
-#
-gzip STAR_unmapped_FASTA/*
-rm -r STAR_unmapped
+
+gzip STAR_unmapped_FASTA_SE/*
+rm -r STAR_unmapped_SE
 
