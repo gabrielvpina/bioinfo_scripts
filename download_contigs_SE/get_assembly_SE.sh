@@ -35,4 +35,5 @@ echo "\n ################### Formatting Star results \n"
 
 gzip STAR_unmapped_FASTA_SE/*
 rm -r STAR_unmapped_SE
+rm -r spades
 
