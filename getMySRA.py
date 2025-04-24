@@ -49,7 +49,7 @@ def process_sra_libraries(input_file, output_dir, sra_toolkit_path=""):
 
 if __name__ == "__main__":
     
-    input_file = "sra_ids.txt"  # Arquivo contendo os IDs SRA separados por vírgula
+    input_file = "sra_ids.txt"  # Arquivo com os IDs SRA separados por vírgula
     output_dir = "fastq_output"  # Diretório para salvar os arquivos FASTQ
     sra_toolkit_path = "/run/media/gabriel/DATA_01/tools/"  # Atualize com o caminho do SRA Toolkit se necessário
 
