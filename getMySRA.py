@@ -4,17 +4,16 @@ from pathlib import Path
 
 def process_sra_libraries(input_file, output_dir, sra_toolkit_path=""):
 
-    # Certifica-se de que o diretório de saída existe
+    # check files
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
-    # Lê os IDs das bibliotecas do arquivo
     with open(input_file, 'r') as file:
         sra_ids = file.read().strip().split(',')
 
     for sra_id in sra_ids:
         sra_id = sra_id.strip()
         if not sra_id:
-            continue  # Ignorar IDs vazios
+            continue  
 
         print(f"Processando {sra_id}...")
 
@@ -34,7 +33,7 @@ def process_sra_libraries(input_file, output_dir, sra_toolkit_path=""):
             print(f"Executando fasterq-dump: {' '.join(fasterq_cmd)}")
             subprocess.run(fasterq_cmd, check=True)
 
-            # Compactação com gzip
+            # gzip
             print(f"Compactando arquivos FASTQ para {sra_id}...")
             fastq_files = glob.glob(os.path.join(output_dir, f"{sra_id}*.fastq"))
             for fastq_file in fastq_files:
