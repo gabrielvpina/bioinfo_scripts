@@ -3,6 +3,13 @@ import subprocess
 from pathlib import Path
 
 def process_sra_libraries(input_file, output_dir, sra_toolkit_path=""):
+    '''
+    Esse script depende dos seguintes pacotes: prefetch e fasterq-dump.
+    Caso eles já estejam instalados, basta colocar "" (vazio) na variável 'sra_toolkit_path'.
+    É possível também usar os executáveis, basta inserir a caminho em que eles estejam na sra_toolkit_path',
+    link para baixar os executáveis: https://github.com/ncbi/sra-tools/wiki/01.-Downloading-SRA-Toolkit
+    
+    '''
 
     # check files
     Path(output_dir).mkdir(parents=True, exist_ok=True)
