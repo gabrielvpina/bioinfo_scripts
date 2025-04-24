@@ -4,6 +4,9 @@ from pathlib import Path
 
 def process_sra_libraries(input_file, output_dir, sra_toolkit_path=""):
     '''
+    Faz o download e a descompactação de bibliotecas SRA (código Run) a partir de um arquivo .txt
+    contendo os códigos SRR separados por vírgula(sem espaços).
+    
     Esse script depende dos seguintes pacotes: prefetch e fasterq-dump.
     Caso eles já estejam instalados, basta colocar "" (vazio) na variável 'sra_toolkit_path'.
     É possível também usar os executáveis, basta inserir a caminho em que eles estejam na sra_toolkit_path',
